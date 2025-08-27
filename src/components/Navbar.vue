@@ -1,5 +1,7 @@
 <template>
-  <div class="h-14 shadow-sm flex justify-between items-center px-4">
+  <div
+    class="h-14 shadow-sm flex justify-between items-center px-4 dark:shadow-md dark:outline-1"
+  >
     <router-link to="/">
       <p
         class="text-lg font-extrabold text-gray-500 flex items-center gap-x-1 uppercase cursor-pointer"
@@ -7,19 +9,36 @@
         Notes <PencilLine :size="17" />
       </p>
     </router-link>
-    <div>
-      <!-- <TextInput /> -->
-    </div>
-    <div>
-      <Button size="default">Login</Button>
+    <div class="flex items-center gap-x-3">
+      <Button
+        class="cursor-pointer"
+        @click="store = 'light'"
+        size="icon"
+        variant="ghost"
+        v-if="store == 'dark'"
+        ><Sun
+      /></Button>
+      <Button
+        class="cursor-pointer"
+        size="icon"
+        @click="store = 'dark'"
+        variant="ghost"
+        v-else
+        ><Moon
+      /></Button>
+      <RouterLink to="/auth/login">
+        <Button size="sm" class="cursor-pointer rounded-sm">Login</Button>
+      </RouterLink>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import TextInput from "./shared/TextInput.vue";
 import Button from "./ui/button/Button.vue";
-import { PencilLine } from "lucide-vue-next";
+import { PencilLine, Sun, Moon } from "lucide-vue-next";
+import { useColorMode } from "@vueuse/core";
+
+const { system, store } = useColorMode();
 </script>
 
 <style></style>
