@@ -2,6 +2,7 @@ import ForgetPassword from "@/views/Auth/ForgetPassword.vue";
 import Login from "@/views/Auth/Login.vue";
 import SignUp from "@/views/Auth/SignUp.vue";
 import HomePage from "@/views/HomePage.vue";
+import ViewDetails from "@/views/ViewDetails.vue";
 
 export const routes = [
   {
@@ -19,5 +20,9 @@ export const routes = [
   {
     path: "/auth/forgetpassword",
     component: ForgetPassword,
+  },
+  {
+    path: "/notes/:id",
+    component: ViewDetails,
   },
 ];

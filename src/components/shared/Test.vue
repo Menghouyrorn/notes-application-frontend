@@ -35,7 +35,34 @@
         </dialog-description>
       </DialogHeader>
       <div class="h-full w-full overflow-y-auto overflow-x-hidden">
-        <FormTask :is-loading="isPending" :handle-submit="onSubmit" />
+        <form @submit="onSubmit" class="space-y-2">
+          <form-field v-slot="{ componentField }" name="title">
+            <form-item>
+              <form-label>Title</form-label>
+              <form-control>
+                <Input placeholder="title..." v-bind="componentField" />
+              </form-control>
+              <form-message />
+            </form-item>
+          </form-field>
+          <form-field v-slot="{ field }" name="description">
+            <form-item>
+              <form-label>Description</form-label>
+              <form-control>
+                <TiptapComponent
+                  v-model="field.value"
+                  @update:model-value="field.onInput"
+                />
+              </form-control>
+              <form-message />
+            </form-item>
+          </form-field>
+          <Button
+            variant="destructive"
+            class="rounded-sm px-8 cursor-pointer font-normal flex items-center"
+            ><ArrowDownToLine /> Save</Button
+          >
+        </form>
       </div>
     </DialogContent>
   </Dialog>
@@ -50,20 +77,28 @@ import {
   DialogContent,
 } from "@/components/ui/dialog";
 import Button from "../ui/button/Button.vue";
-import { Expand, Minimize } from "lucide-vue-next";
+import { Expand, Minimize, ArrowDownToLine } from "lucide-vue-next";
 import { ref } from "vue";
+import {
+  FormField,
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import Input from "../ui/input/Input.vue";
+import TiptapComponent from "./TiptapComponent.vue";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { useForm } from "vee-validate";
 import { useMutationCreateTask } from "@/services";
-import FormTask from "./FormTask.vue";
 
 const isOpen = defineModel<boolean>("open");
 const isFullScreen = ref<boolean>(false);
 const onFullScreen = () => {
   isFullScreen.value = !isFullScreen.value;
 };
-const { mutate: onCreateTask, isPending } = useMutationCreateTask();
+const { mutate: onCreateTask } = useMutationCreateTask();
 
 const schema = toTypedSchema(
   z.object({
@@ -77,8 +112,8 @@ const form = useForm({
 });
 
 const onSubmit = form.handleSubmit((v) => {
+  console.log(v);
   onCreateTask(v);
-  isOpen.value = false;
 });
 </script>
 
