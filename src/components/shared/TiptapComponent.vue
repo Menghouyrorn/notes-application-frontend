@@ -101,7 +101,7 @@
 <script lang="ts" setup>
 import { EditorContent, useEditor } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
-import { ref, watch } from "vue";
+import { onBeforeUnmount, onUpdated, ref, watch } from "vue";
 import { Heading, type Level } from "@tiptap/extension-heading";
 import CustomSelect from "./CustomSelect.vue";
 import { SELECT_HEADING, SELECT_LIST } from "@/data";
@@ -138,12 +138,16 @@ const select_list = ref("");
 const link_text = ref("");
 const image_field = ref<HTMLInputElement | null>(null);
 
+const modelValue = defineModel<string>();
+
 const editor = useEditor({
-  content: "",
+  content: modelValue.value || "",
   editable: true,
   extensions: [
     StarterKit,
     ImageTiptap.configure({
+      inline: false,
+      allowBase64: true,
       HTMLAttributes: {
         class: "m-auto w-[400px]",
       },
@@ -192,13 +196,22 @@ const editor = useEditor({
       },
     }),
   ],
+  onUpdate: ({ editor }) => {
+    modelValue.value = editor.getHTML();
+  },
   editorProps: {
     attributes: {
-      class:
-        "min-h-[360px] border rounded-sm bg-gray-50 py-2 px-3 overflow-y-auto",
+      class: "h-[360px] border rounded-sm bg-gray-50 py-2 px-3 overflow-y-auto",
     },
   },
 });
+
+watch(modelValue, (value) => {
+  if (editor && value !== editor.value?.getHTML()) {
+    editor.value?.commands.setContent(value || "", { emitUpdate: false });
+  }
+});
+
 let old_data = ref<{
   oldHead: string;
   oldList: string;
@@ -288,6 +301,9 @@ const onUplaodImage = async (e: Event) => {
   };
   reader.readAsDataURL(file);
 };
+onBeforeUnmount(() => {
+  editor?.value?.destroy();
+});
 </script>
 
 <style>

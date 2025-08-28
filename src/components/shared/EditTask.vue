@@ -10,7 +10,7 @@
       <DialogHeader>
         <DialogTitle
           class="flex items-center relative justify-between text-xl uppercase font-extrabold text-gray-500"
-          >Create Notes
+          >Edit Notes
           <div class="flex absolute -top-[17px] right-2">
             <Button
               v-if="!isFullScreen"
@@ -30,8 +30,7 @@
             /></Button></div
         ></DialogTitle>
         <dialog-description>
-          Add a new note to capture important details and manage your tasks
-          effectively.
+          On this side you can edit the information for your notes.
         </dialog-description>
       </DialogHeader>
       <div class="h-full w-full overflow-y-auto overflow-x-hidden">
@@ -51,19 +50,21 @@ import {
 } from "@/components/ui/dialog";
 import Button from "../ui/button/Button.vue";
 import { Expand, Minimize } from "lucide-vue-next";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { useForm } from "vee-validate";
-import { useMutationCreateTask } from "@/services";
+import { useMutationEditTask } from "@/services";
 import FormTask from "./FormTask.vue";
+import type { TaskType } from "@/types";
 
 const isOpen = defineModel<boolean>("open");
+const props = defineProps<{ id: number; defaultValue?: TaskType }>();
 const isFullScreen = ref<boolean>(false);
 const onFullScreen = () => {
   isFullScreen.value = !isFullScreen.value;
 };
-const { mutate: onCreateTask, isPending } = useMutationCreateTask();
+const { mutate: onUpdateTask, isPending } = useMutationEditTask();
 
 const schema = toTypedSchema(
   z.object({
@@ -76,8 +77,20 @@ const form = useForm({
   validationSchema: schema,
 });
 
+watch(isOpen, (open) => {
+  if (open && props.defaultValue) {
+    form.setValues({
+      title: props.defaultValue.title,
+      description: props.defaultValue.description,
+    });
+  }
+});
+
 const onSubmit = form.handleSubmit((v) => {
-  onCreateTask(v);
+  onUpdateTask({
+    id: Number(props.id),
+    payload: v,
+  });
   isOpen.value = false;
 });
 </script>
