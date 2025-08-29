@@ -82,10 +82,10 @@ const deleteTask = (id: number) => {
     });
 };
 
-const getTaskUsers = () => {
+const getTaskUsers = (params: string) => {
   const token = localStorage.getItem("token");
   return axios
-    .get(TASK_URL + "/user", {
+    .get(TASK_URL + `/user?${params}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
