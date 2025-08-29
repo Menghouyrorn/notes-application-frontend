@@ -11,7 +11,7 @@
     </router-link>
     <div class="flex items-center gap-x-3">
       <Button
-        class="cursor-pointer"
+        class="cursor-pointer text-black"
         @click="store = 'light'"
         size="icon"
         variant="ghost"

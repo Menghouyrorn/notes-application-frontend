@@ -201,7 +201,8 @@ const editor = useEditor({
   },
   editorProps: {
     attributes: {
-      class: "h-[360px] border rounded-sm bg-gray-50 py-2 px-3 overflow-y-auto",
+      class:
+        "h-[360px] border rounded-sm bg-gray-50 dark:bg-background py-2 px-3 overflow-y-auto",
     },
   },
 });
