@@ -26,7 +26,7 @@
           </SelectContent>
         </Select>
         <Button
-          v-if="selectedSort"
+          v-if="selectedSort !== ''"
           class="cursor-pointer rounded-sm"
           variant="destructive"
           @click="
