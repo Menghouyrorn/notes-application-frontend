@@ -9,4 +9,4 @@
 
 Demo Project
 
-https://youtu.be/3MMP2dBpAQQ
+[<video controls src="/public/video_demo.mp4" title="Title"></video>](https://youtu.be/3MMP2dBpAQQ)
