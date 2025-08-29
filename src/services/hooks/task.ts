@@ -76,9 +76,15 @@ const useMutationDeleteTask = () => {
 };
 
 const useQueryUserTasks = () => {
+  const params = useWatchQueryParams([
+    "title",
+    "sort_title",
+    "find_today",
+    "find_week",
+  ]);
   return useQuery<UserType>({
-    queryKey: [TASK_KEY, USER_KEY],
-    queryFn: getTaskUsers,
+    queryKey: [TASK_KEY, params],
+    queryFn: () => getTaskUsers(params.value),
   });
 };
 
