@@ -26,7 +26,7 @@
           </SelectContent>
         </Select>
         <Button
-          v-if="selectedSort !== ''"
+          v-show="selectedSort !== ''"
           class="cursor-pointer rounded-sm"
           variant="destructive"
           @click="
@@ -67,7 +67,7 @@
         <p
           class="text-5xl font-extrabold text-gray-300 uppercase flex justify-center items-center w-full"
         >
-          No Notes
+          Not Found Data
         </p>
       </div>
     </div>
@@ -106,7 +106,6 @@ let timeout = ref(0);
 const user = useUserStore();
 const toast = useToast();
 const searchParams = useWatchQueryParams(["find_today", "find_week"]);
-
 const selectedSort = ref<string>(searchParams.value || "");
 const searchData = ref<string>((route?.query["title"] as string) || "");
 

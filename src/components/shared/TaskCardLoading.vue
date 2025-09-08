@@ -30,8 +30,6 @@ import {
   CardHeader,
   CardContent,
 } from "../ui/card";
-import Button from "../ui/button/Button.vue";
-import { CalendarDays, PenLine, Trash } from "lucide-vue-next";
 import { Skeleton } from "../ui/skeleton";
 </script>
 
