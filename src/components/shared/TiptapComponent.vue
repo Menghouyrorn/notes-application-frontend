@@ -101,7 +101,7 @@
 <script lang="ts" setup>
 import { EditorContent, useEditor } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
-import { onBeforeUnmount, onUpdated, ref, watch } from "vue";
+import { onBeforeUnmount, ref, watch } from "vue";
 import { Heading, type Level } from "@tiptap/extension-heading";
 import CustomSelect from "./CustomSelect.vue";
 import { SELECT_HEADING, SELECT_LIST } from "@/data";
