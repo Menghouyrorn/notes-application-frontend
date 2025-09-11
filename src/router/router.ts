@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { routes } from "./data";
-import { useUserStore } from "@/store/auth";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -15,6 +14,10 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !token) {
     return next({ path: "/auth/login" });
+  }
+
+  if (token && publicPages.includes(to.path)) {
+    return next({ path: from.path });
   }
 
   next();

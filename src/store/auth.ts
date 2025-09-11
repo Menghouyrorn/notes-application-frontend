@@ -2,11 +2,13 @@ import { defineStore } from "pinia";
 import { type UserType } from "@/types";
 
 export const useUserStore = defineStore("user", {
-  state: () => ({
-    current_user: JSON.parse(
-      localStorage.getItem("user") || "null"
-    ) as UserType | null,
-  }),
+  state: () => {
+    const user = localStorage.getItem("user");
+    return {
+      current_user:
+        user && user !== "undefined" ? (JSON.parse(user) as UserType) : null,
+    };
+  },
   actions: {
     setUser(user: UserType) {
       this.current_user = user;

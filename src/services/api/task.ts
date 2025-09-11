@@ -1,5 +1,5 @@
-import axios from "axios";
 import { TASK_URL } from "./constance";
+import { GET, POST, DELETE, PATCH } from "@/services";
 
 interface TaskProp {
   title: string;
@@ -12,88 +12,32 @@ interface TaskUpdate {
 }
 
 const getTasks = (params: string) => {
-  const token = localStorage.getItem("token");
-  console.log(token);
-  return axios
-    .get(TASK_URL + `?${params}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((v) => v.data)
-    .catch((e) => {
-      throw e;
-    });
+  return GET({ url: TASK_URL + `?${params}` });
 };
 
 const getTask = (id: number) => {
-  const token = localStorage.getItem("token");
-  return axios
-    .get(TASK_URL + `/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((v) => v.data.data)
-    .catch((e) => {
-      throw e;
-    });
+  return GET({ url: TASK_URL + `/${id}` });
 };
 
 const createTask = (paylod: TaskProp) => {
-  const token = localStorage.getItem("token");
-  return axios
-    .post(TASK_URL, paylod, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((v) => v.data)
-    .catch((e) => {
-      throw e;
-    });
+  return POST({ url: TASK_URL }, paylod);
 };
 
 const updateTask = (data: TaskUpdate) => {
-  const token = localStorage.getItem("token");
-  return axios
-    .patch(TASK_URL + `/${data.id}`, data.payload, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((v) => v.data)
-    .catch((e) => {
-      throw e;
-    });
+  return PATCH(
+    {
+      url: TASK_URL + `/${data.id}`,
+    },
+    data.payload
+  );
 };
 
 const deleteTask = (id: number) => {
-  const token = localStorage.getItem("token");
-  return axios
-    .delete(TASK_URL + `/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((v) => v.data)
-    .catch((e) => {
-      throw e;
-    });
+  return DELETE({ url: TASK_URL + `/${id}` });
 };
 
 const getTaskUsers = (params: string) => {
-  const token = localStorage.getItem("token");
-  return axios
-    .get(TASK_URL + `/user?${params}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((v) => v.data.data)
-    .catch((e) => {
-      throw e;
-    });
+  return GET({ url: TASK_URL + `/user?${params}` });
 };
 
 export { getTask, getTasks, createTask, updateTask, deleteTask, getTaskUsers };

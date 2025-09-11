@@ -1,18 +1,16 @@
-const URL = import.meta.env.VITE_API_BACKEND;
-
-const USER_URL = URL + "/api/user";
+const USER_URL = "/api/user";
 const USER_KEY = "user";
 
-const LOGIN_URL = URL + "/api/login";
+const LOGIN_URL = "/api/login";
 const LOGIN_KEY = "login";
 
-const SIGNUP_URL = URL + "/api/register";
+const SIGNUP_URL = "/api/register";
 const SIGNUP_KEY = "register";
 
-const LOGOUT_URL = URL + "/api/logout";
+const LOGOUT_URL = "/api/logout";
 const LOGOUT_KEY = "logout";
 
-const TASK_URL = URL + "/api/tasks";
+const TASK_URL = "/api/tasks";
 const TASK_KEY = "tasks";
 
 export {

@@ -1,5 +1,5 @@
-import axios from "axios";
 import { LOGIN_URL, LOGOUT_URL, SIGNUP_URL, USER_URL } from "./constance";
+import { GET, POST } from "@/services";
 
 type LoginProps = {
   email: string;
@@ -14,53 +14,21 @@ type RegisterProps = {
 };
 
 const login = (paylod: LoginProps) => {
-  return axios
-    .post(LOGIN_URL, paylod)
-    .then((v) => v.data)
-    .catch((e) => {
-      throw e;
-    });
+  return POST({ url: LOGIN_URL }, paylod);
 };
 
 const register = (paylod: RegisterProps) => {
-  return axios
-    .post(SIGNUP_URL, paylod)
-    .then((v) => v.data)
-    .catch((e) => {
-      throw e;
-    });
+  return POST({ url: SIGNUP_URL }, paylod);
 };
 
 const logout = () => {
-  const token = localStorage.getItem("token");
-  return axios
-    .post(
-      LOGOUT_URL,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    .then((v) => v.data)
-    .catch((e) => {
-      throw e;
-    });
+  return POST({
+    url: LOGOUT_URL,
+  });
 };
 
 const currentUser = () => {
-  const token = localStorage.getItem("token");
-  return axios
-    .get(USER_URL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((v) => v.data)
-    .catch((e) => {
-      throw e;
-    });
+  return GET({ url: USER_URL });
 };
 
 export { login, register, logout, currentUser };
