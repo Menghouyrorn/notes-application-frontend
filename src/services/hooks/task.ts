@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/vue-query";
+import { useQuery, useMutation } from "@tanstack/vue-query";
 import {
   createTask,
   deleteTask,
@@ -7,10 +7,14 @@ import {
   getTaskUsers,
   updateTask,
 } from "../api";
-import { TASK_KEY, USER_KEY } from "../api/constance";
-import { useWatchQueryParams } from "@/hooks";
-import { useToast } from "vue-toast-notification";
-import type { ResponseWithPagination, TaskType, UserType } from "@/types";
+import { TASK_KEY } from "../api/constance";
+import { useOnhandleQuery, useWatchQueryParams } from "@/hooks";
+import {
+  type ResponseWithPagination,
+  type TaskType,
+  type UserType,
+  ResponseKey,
+} from "@/types";
 
 const useQueryTasks = () => {
   const search_params = useWatchQueryParams(["title"]);
@@ -28,49 +32,43 @@ const useQueryTask = (id: number) => {
 };
 
 const useMutationCreateTask = () => {
-  const toast = useToast();
-  const queryClient = useQueryClient();
+  const { onSuccess, onError } = useOnhandleQuery();
   return useMutation({
     mutationFn: createTask,
     mutationKey: [TASK_KEY],
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [TASK_KEY] });
-      toast.success("create successfully!");
+      onSuccess({ queryKey: [TASK_KEY], type: ResponseKey.CREATE });
     },
     onError: () => {
-      toast.error("error");
+      onError({ type: ResponseKey.CREATE });
     },
   });
 };
 
 const useMutationEditTask = () => {
-  const queryClient = useQueryClient();
-  const toast = useToast();
+  const { onSuccess, onError } = useOnhandleQuery();
   return useMutation({
     mutationFn: updateTask,
     mutationKey: [TASK_KEY],
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [TASK_KEY] });
-      toast.success("Update successfully !");
+      onSuccess({ queryKey: [TASK_KEY], type: ResponseKey.UPDATE });
     },
     onError: () => {
-      toast.error("Error");
+      onError({ type: ResponseKey.UPDATE });
     },
   });
 };
 
 const useMutationDeleteTask = () => {
-  const queryClients = useQueryClient();
-  const toast = useToast();
+  const { onSuccess, onError } = useOnhandleQuery();
   return useMutation({
     mutationFn: deleteTask,
     mutationKey: [TASK_KEY],
     onSuccess: () => {
-      toast.success("Delete successfully !");
-      queryClients.invalidateQueries({ queryKey: [TASK_KEY] });
+      onSuccess({ queryKey: [TASK_KEY], type: ResponseKey.DELETE });
     },
     onError: () => {
-      toast.error("Error");
+      onError({ type: ResponseKey.DELETE });
     },
   });
 };

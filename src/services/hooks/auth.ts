@@ -5,7 +5,7 @@ import { useToast } from "vue-toast-notification";
 import { currentUser, login, logout, register } from "../api";
 import { useUserStore } from "@/store/auth";
 import type { UserType } from "@/types";
-import axios from "axios";
+import { GET } from "../apiCore";
 
 const useLogoutMutation = () => {
   const router = useRouter();
@@ -38,14 +38,11 @@ const useLoginMutation = () => {
     onSuccess: (v) => {
       localStorage.setItem("token", v.token);
       toast.success("Login Successfully");
-      axios
-        .get(USER_URL, {
-          headers: {
-            Authorization: `Bearer ${v.token}`,
-          },
-        })
+      GET({
+        url: USER_URL,
+      })
         .then((v) => {
-          userStore.setUser(v.data.data);
+          userStore.setUser(v);
         })
         .catch((e) => {
           console.log(e);
@@ -53,15 +50,9 @@ const useLoginMutation = () => {
       router.replace("/");
     },
     onError: (e) => {
+      console.log(e);
       toast.error("Login error Please try again!");
     },
-  });
-};
-
-const useQueryCurrentUser = () => {
-  return useQuery<UserType>({
-    queryKey: [USER_KEY],
-    queryFn: currentUser,
   });
 };
 
