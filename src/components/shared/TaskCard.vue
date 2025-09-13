@@ -2,7 +2,9 @@
   <Card class="p-1 grid gap-y-2 rounded-xs shadow-sm">
     <CardHeader class="p-0 m-0">
       <CardTitle class="flex justify-between items-center px-2 py-0 m-0">
-        <p class="text-lg font-medium text-gray-600">{{ props.title }}</p>
+        <p class="text-md font-medium text-gray-600">
+          {{ props.title.slice(0, 20) + "..." }}
+        </p>
         <div class="flex items-center">
           <Button
             @click="onEdit"

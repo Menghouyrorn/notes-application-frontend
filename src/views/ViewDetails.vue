@@ -13,7 +13,7 @@
       >
         <ChevronLeft />
       </Button>
-      <p class="text-4xl font-extrabold text-gray-700">
+      <p class="text-2xl uppercase font-extrabold text-gray-700">
         {{ task_data?.title }}
       </p>
       <div class="flex items-center gap-x-2">
